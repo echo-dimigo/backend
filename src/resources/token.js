@@ -11,7 +11,7 @@ export const generateAccessToken = identity => {
       id: identity.id,
       username: identity.username,
       name: identity.name,
-      userType: identity.user_type
+      type: identity.user_type
     }, jwtSecret, { expiresIn: '1w' })
     return accessToken
   } catch (error) {
