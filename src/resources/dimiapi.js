@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-export const getAuthURI = (id, password) => {
+export const getAuthURI = (username, password) => {
   return `${process.env.DIMIAPI_URL}` +
-    `/v1/users/identify?username=${id}&password=${password}`
+    `/v1/users/identify?username=${username}&password=${password}`
 }
 
 export const getUserIdentity = async (username, password) => {
