@@ -5,7 +5,6 @@ import CreateError from 'http-errors'
 
 async function CreatePost (req, res, next) {
   if (!validationResult(req).isEmpty()) throw new CreateError(400)
-  
   const post = await PostModel.createPost(req.body, req.user)
 
   res.json({
@@ -13,6 +12,12 @@ async function CreatePost (req, res, next) {
   })
 }
 
+async function DeletePost (req, res, next) {
+  await PostModel.deletePost(req.params.postId, req.user)
+  res.status(204).end()
+}
+
 export default {
-  CreatePost: asyncWrapper(CreatePost)
+  CreatePost: asyncWrapper(CreatePost),
+  DeletePost: asyncWrapper(DeletePost)
 }
