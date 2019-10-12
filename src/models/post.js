@@ -1,4 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
+import CreateError from 'http-errors'
+import checkAdmin from '@/resources/checkAdmin'
 
 const postModel = new Schema({
   title: {
@@ -37,6 +39,19 @@ postModel.statics.createPost = async function (post, user) {
 
   const savedPost = await newPost.save()
   return savedPost
+}
+
+postModel.method('checkPrivilege', function (user) {
+  return checkAdmin(user) ||
+    this.writer === user.id
+})
+
+postModel.statics.deletePost = async function (postId, user) {
+  const post = await this.findById(postId)
+  if (!post) throw new CreateError(404)
+  if (!post.checkPrivilege(user)) throw new CreateError(403)
+
+  await post.remove()
 }
 
 export default mongoose.model('Post', postModel)
