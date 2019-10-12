@@ -28,10 +28,11 @@ async function Login (req, res, next) {
   let identity
   try {
     const { username, password } = req.body
-    identity = await getUserIdentity(username, password)
 
-    const res = await UserModel.findByIdx(identity.id)
-    if (!res) throw new CreateError(401)
+    identity = await getUserIdentity(username, password)
+    identity = await UserModel.findByIdx(identity.id)
+
+    if (!identity) throw new CreateError(401)
   } catch (error) {
     throw new CreateError(401)
   }
