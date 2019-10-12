@@ -10,13 +10,17 @@ const userModel = new Schema({
     type: String,
     required: true
   },
+  name: {
+    type: String,
+    required: true
+  },
   image: {
     type: String,
     default: 'none'
   },
   type: {
     type: String,
-    enum: ['T', 'D', 'S'],
+    enum: ['T', 'D', 'S', 'A'],
     default: 'S'
   },
   serial: {
@@ -47,6 +51,7 @@ userModel.statics.createUser = async function (identity) {
   const newUser = new this({
     id: identity.id,
     username: identity.username,
+    name: identity.name,
     image: identity.photofile1,
     type: identity.user_type,
     serial: identity.id,
