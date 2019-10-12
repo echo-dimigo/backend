@@ -26,4 +26,17 @@ const postModel = new Schema({
   }
 })
 
+postModel.statics.createPost = async function (post, user) {
+  const { title, content } = post
+
+  const newPost = new this({
+    title,
+    content,
+    writer: user.id
+  })
+
+  const savedPost = await newPost.save()
+  return savedPost
+}
+
 export default mongoose.model('Post', postModel)
