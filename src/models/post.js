@@ -51,7 +51,13 @@ postModel.statics.deletePost = async function (postId, user) {
   if (!post) throw new CreateError(404)
   if (!post.checkPrivilege(user)) throw new CreateError(403)
 
-  await post.remove()
+  if (post.writer === user.id) {
+    post.status = 'deleted'
+  } else {
+    post.status = 'hided'
+  }
+
+  await post.save()
 }
 
 export default mongoose.model('Post', postModel)
