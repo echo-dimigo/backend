@@ -16,8 +16,8 @@ const postModel = new Schema({
     default: new Date()
   },
   writer: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    type: Number,
+    required: true
   },
   status: {
     type: String,
