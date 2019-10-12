@@ -1,0 +1,23 @@
+{
+  "swaggerDefinition": {
+    "info": {
+      "description": "ECHO API DOCUMENTATION",
+      "title": "ECHO SNS",
+      "version": "1.0.0"
+    },
+    "basePath": "/",
+    "produces": [
+      "application/json"
+    ],
+    "schemes": ["https"],
+    "securityDefinitions": {
+      "JWT": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "Authorization Token"
+      }
+    }
+  },
+  "files": ["./routes/*/index.js"]
+}

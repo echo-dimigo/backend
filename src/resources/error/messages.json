@@ -1,0 +1,11 @@
+{
+  "400": "Bad Request",
+  "401": "Unauthorized",
+  "402": "Payment Required",
+  "403": "Forbidden",
+  "404": "Not Found",
+  "405": "Method Not Allowed",
+  "409": "Conflict",
+  "423": "Locked",
+  "500": "Interner Server Error"
+}
