@@ -16,9 +16,9 @@ async function Join (req, res, next) {
     throw new CreateError(401)
   }
 
-  await UserModel.createUser(identity)
+  const savedIdentity = await UserModel.createUser(identity)
   res.json({
-    identity
+    identity: savedIdentity
   })
 }
 
