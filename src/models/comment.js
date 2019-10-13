@@ -12,6 +12,7 @@ const commentModel = new Schema({
   },
   writer: {
     type: mongoose.Schema.Types.ObjectId,
+    required: true,
     ref: 'User'
   },
   status: {
@@ -21,6 +22,7 @@ const commentModel = new Schema({
   },
   for: {
     type: mongoose.Schema.Types.ObjectId,
+    required: true,
     ref: 'Post'
   }
 })
