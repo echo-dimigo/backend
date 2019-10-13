@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
-import { EchoError } from '@/resources/error'
+import methods from './methods'
+import statics from './statics'
 
 const userModel = new Schema({
   id: { // in dimiapi
@@ -38,27 +39,11 @@ const userModel = new Schema({
   }
 })
 
-userModel.statics.findByIdx = async function (id) {
-  const user = await this.findOne({ id })
-  return user || false
-}
-
-userModel.statics.createUser = async function (identity) {
-  if (await this.findByIdx(identity.id)) throw new EchoError(409)
-
-  const newUser = new this({
-    id: identity.id,
-    username: identity.username,
-    name: identity.name,
-    image: identity.photofile1,
-    type: identity.user_type,
-    serial: identity.id,
-    email: identity.email,
-    gender: identity.gender
-  })
-
-  const savedUser = await newUser.save()
-  return savedUser
-}
+Object.keys(methods).forEach(value => {
+  userModel.method(value, methods[value])
+})
+Object.keys(statics).forEach(value => {
+  userModel.statics[value] = statics[value]
+})
 
 export default mongoose.model('User', userModel)
