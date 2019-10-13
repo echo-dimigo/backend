@@ -8,10 +8,35 @@ async function getSubscriptionsByUser (user) {
   return subscriptions
 }
 
+async function isUserSubscribed (tagId, user) {
+  const subscription =
+    await SubscriptionModel.findOne({
+      tag: tagId,
+      user: user._id
+    })
+  return Boolean(subscription)
+}
+
+async function getSubscription (tagId, user) {
+  if (!await SubscriptionModel.isUserSubscribed(tagId, user)) {
+    throw new EchoError(404, 'No Such Subscription')
+  }
+
+  const subscription = await SubscriptionModel.findOne({
+    tag: tagId,
+    user: user._id
+  })
+  return subscription
+}
+
 async function createSubscription (tagId, user) {
   const tag = await TagModel.findById(tagId)
   if (!tag) throw new EchoError(403)
   if (!tag.checkSubPermission(user)) throw new EchoError(403)
+
+  if (await SubscriptionModel.isUserSubscribed(tagId, user)) {
+    throw new EchoError(409, 'Already Subscribed')
+  }
 
   const newSubscription = new SubscriptionModel({
     tag: tagId,
@@ -21,9 +46,13 @@ async function createSubscription (tagId, user) {
   return savedSubscription
 }
 
-async function cancelSubscription (subscriptionId, user) {
-  const subscription = await SubscriptionModel.findById(subscriptionId)
-  if (!subscription) throw new EchoError(403)
+async function cancelSubscription (tagId, user) {
+  if (!await SubscriptionModel.isUserSubscribed(tagId, user)) {
+    throw new EchoError(404, 'No Such Subscription')
+  }
+  const subscription =
+    await SubscriptionModel.getSubscription(tagId, user)
+  if (!subscription) throw new EchoError(404, 'Subscription Not Found')
   if (!subscription.checkPrivilege(user)) throw new EchoError(403)
 
   await subscription.remove()
@@ -32,5 +61,7 @@ async function cancelSubscription (subscriptionId, user) {
 export default {
   getSubscriptionsByUser,
   createSubscription,
-  cancelSubscription
+  cancelSubscription,
+  isUserSubscribed,
+  getSubscription
 }
