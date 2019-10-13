@@ -4,7 +4,6 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
-import { getCodeFromMessage } from '@/resources/error'
 import { attachUserInfo } from '@/resources/middlewares'
 
 import routes from '@/routes'
@@ -43,14 +42,21 @@ app.use('/comment', routes.Comment)
 app.use('/tag', routes.Tag)
 
 app.use((error, req, res, next) => {
-  if (error.formatter) {
-    res.status(400).json(error.errors)
+  if (error.name === 'ValidationError') {
+    res.status(error.code)
+      .json({
+        properties: error.properties
+      })
+  } else if (error.name === 'EchoError') {
+    res.status(error.code)
+      .json({
+        message: error.message
+      })
   } else {
-    const message = error.message
-    const code = getCodeFromMessage(message)
-
-    res.status(code || 500)
-      .json({ message })
+    res.status(500)
+      .json({
+        message: error.message
+      })
   }
 })
 
