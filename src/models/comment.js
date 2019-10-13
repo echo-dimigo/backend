@@ -20,7 +20,7 @@ const commentModel = new Schema({
     enum: ['normal', 'deleted', 'hided'], // deleted: 사용자가 삭제, hided: 관리자가 숨김 처리
     default: 'normal'
   },
-  for: {
+  target: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'Post'
