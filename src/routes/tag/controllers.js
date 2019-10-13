@@ -13,6 +13,14 @@ async function CreateTag (req, res, next) {
   })
 }
 
+async function GetAllTags (req, res, next) {
+  const allTags = await TagModel.getAllTags(req.user)
+  res.json({
+    tags: allTags
+  })
+}
+
 export default {
-  CreateTag: asyncWrapper(CreateTag)
+  CreateTag: asyncWrapper(CreateTag),
+  GetAllTags: asyncWrapper(GetAllTags)
 }

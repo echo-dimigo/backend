@@ -5,7 +5,7 @@ import controllers from './controllers'
 
 const router = Router()
 
-router.get('/', (req, res, next) => {})
+router.get('/', needAuthorization, controllers.GetAllTags)
 
 router.post('/', [
   check('name').isString().not().isEmpty(),

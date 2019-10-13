@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 import { EchoError } from '@/resources/error'
+import checkAdmin from '@/resources/checkAdmin'
 
 const tagModel = new Schema({
   name: {
@@ -30,6 +31,23 @@ const tagModel = new Schema({
 tagModel.statics.findByName = async function (name) {
   const tag = await this.findOne({ name })
   return tag
+}
+
+tagModel.statics.checkPrivilege = async function (tagId, user) {
+  const tag = await this.findById(tagId)
+  if (tag.owner === user._id) return true
+  else return checkAdmin(user)
+}
+
+tagModel.statics.getAllTags = async function (user) {
+  const allTags = this.find({})
+  if (checkAdmin(user)) return allTags
+
+  const filteredTag = this.find({ $or: [
+    { joinOption: { $in: ['R', 'O'] } },
+    { owner: user._id }
+  ]})
+  return filteredTag
 }
 
 tagModel.statics.createTag = async function (tag, user) {
