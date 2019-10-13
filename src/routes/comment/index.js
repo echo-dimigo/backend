@@ -19,6 +19,10 @@ router.delete('/:commentId',[
     mongoose.Types.ObjectId.isValid(value))
 ], needAuthorization, controllers.DeleteComment)
 
-router.put('/:commentId', (req, res, next) => {})
+router.put('/:commentId', [
+  check('commentId').custom(value =>
+    mongoose.Types.ObjectId.isValid(value)),
+  check('content').isString().not().isEmpty()
+], needAuthorization, controllers.EditComment)
 
 export default router

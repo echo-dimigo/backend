@@ -20,7 +20,7 @@ const commentModel = new Schema({
   },
   status: {
     type: String,
-    enum: ['normal', 'deleted', 'hided'], // deleted: 사용자가 삭제, hided: 관리자가 숨김 처리
+    enum: ['normal', 'deleted', 'hided', 'edited'], // deleted: 사용자가 삭제, hided: 관리자가 숨김 처리
     default: 'normal'
   },
   target: {
@@ -62,6 +62,18 @@ commentModel.statics.deleteComment = async function (commentId, user) {
   }
 
   await comment.save()
+}
+
+commentModel.statics.editComment = async function (commentId, newComment, user) {
+  const origComment = await this.findById(commentId)
+  if (!origComment) throw new CreateError(404)
+  if (!origComment.checkPrivilege(user)) throw new CreateError(403)
+
+  origComment.status = 'edited'
+  origComment.content = newComment.content
+
+  const savedComment = await origComment.save()
+  return savedComment
 }
 
 export default mongoose.model('Comment', commentModel)

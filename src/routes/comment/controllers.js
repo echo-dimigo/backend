@@ -16,7 +16,17 @@ async function DeleteComment (req, res, next) {
   res.status(204).end()
 }
 
+async function EditComment (req, res, next) {
+  if (!validationResult(req).isEmpty()) throw validationResult(req)
+  const editedComment =
+    await CommentModel.editComment(req.params.commentId, req.body, req.user)
+  res.json({
+    comment: editedComment
+  })
+}
+
 export default {
   CreateComment: asyncWrapper(CreateComment),
-  DeleteComment: asyncWrapper(DeleteComment)
+  DeleteComment: asyncWrapper(DeleteComment),
+  EditComment: asyncWrapper(EditComment)
 }
