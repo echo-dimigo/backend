@@ -19,7 +19,7 @@ async function deletePost (postId, user) {
   if (!post) throw new EchoError(404, 'Post Not Found')
   if (!post.checkPrivilege(user)) throw new EchoError(403)
 
-  if (post.writer === user._id) {
+  if (post.writer.equals(user._id)) {
     post.status = 'D'
   } else {
     post.status = 'H'
