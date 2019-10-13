@@ -20,7 +20,16 @@ async function GetAllTags (req, res, next) {
   })
 }
 
+async function DeleteTag (req, res, next) {
+  if (!validationResult(req).isEmpty()) {
+    throw new ValidationError(validationResult(req))
+  }
+  await TagModel.deleteTag(req.params.tagId, req.user)
+  res.status(204).end()
+}
+
 export default {
   CreateTag: asyncWrapper(CreateTag),
-  GetAllTags: asyncWrapper(GetAllTags)
+  GetAllTags: asyncWrapper(GetAllTags),
+  DeleteTag: asyncWrapper(DeleteTag)
 }

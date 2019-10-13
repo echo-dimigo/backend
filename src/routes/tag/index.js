@@ -13,7 +13,7 @@ router.post('/', [
   check('joinOption').isIn(['P', 'R', 'O'])
 ], needAuthorization, controllers.CreateTag)
 
-router.delete('/:tagId', (req, res, next) => {})
+router.delete('/:tagId', needAuthorization, controllers.DeleteTag)
 
 router.put('/:tagId', (req, res, next) => {})
 

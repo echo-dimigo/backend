@@ -38,11 +38,19 @@ tagModel.method('checkPrivilege', function (user) {
     this.owner.equals(user._id)
 })
 
+tagModel.statics.deleteTag = async function (tagId, user) {
+  const tag = await this.findById(tagId)
+  if (!tag) throw new EchoError(404, 'Post Not Found')
+  if (!tag.checkPrivilege(user)) throw new EchoError(403)
+
+  await tag.remove()
+}
+
 tagModel.statics.getAllTags = async function (user) {
-  const allTags = this.find({})
+  const allTags = await this.find({})
   if (checkAdmin(user)) return allTags
 
-  const filteredTag = this.find({ $or: [
+  const filteredTag = await this.find({ $or: [
     { joinOption: { $in: ['R', 'O'] } },
     { owner: user._id }
   ]})
