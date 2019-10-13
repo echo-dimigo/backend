@@ -44,7 +44,7 @@ postModel.statics.createPost = async function (post, user) {
 
 postModel.method('checkPrivilege', function (user) {
   return checkAdmin(user) ||
-    this.writer === user._id
+    this.writer.equals(user._id)
 })
 
 postModel.statics.deletePost = async function (postId, user) {
