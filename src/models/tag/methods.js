@@ -5,6 +5,12 @@ function checkPrivilege (user) {
     this.owner.equals(user._id)
 }
 
+function checkSubPermission (user) { // 구독 가능 여부
+  return checkAdmin(user) ||
+    this.joinOption === 'O'
+}
+
 export default {
-  checkPrivilege
+  checkPrivilege,
+  checkSubPermission
 }
