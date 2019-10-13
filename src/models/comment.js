@@ -1,4 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
+import { PostModel } from '@/models'
+import CreateError from 'http-errors'
 
 const commentModel = new Schema({
   content: {
@@ -26,5 +28,20 @@ const commentModel = new Schema({
     ref: 'Post'
   }
 })
+
+commentModel.statics.createComment = async function (comment, user) {
+  const post = await PostModel.findById(comment.target)
+  if (!post) throw new CreateError(404)
+
+  const { content, target } = comment
+  const newComment = new this({
+    content,
+    target,
+    writer: user._id
+  })
+
+  const savedComment = await newComment.save()
+  return savedComment
+}
 
 export default mongoose.model('Comment', commentModel)
