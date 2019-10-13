@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { UserModel } from '@/models'
 
 export const getAuthURI = (username, password) => {
   return `${process.env.DIMIAPI_URL}` +
@@ -12,5 +13,13 @@ export const getUserIdentity = async (username, password) => {
       password: process.env.DIMIAPI_PW
     }
   })).data
-  return identity
+  const identityFromDB = await UserModel.findByIdx(identity.id)
+  if (identityFromDB) {
+    return {
+      ...identity,
+      _id: identityFromDB._id
+    }
+  } else {
+    return identity
+  }
 }

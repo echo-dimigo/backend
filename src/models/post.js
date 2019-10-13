@@ -18,7 +18,8 @@ const postModel = new Schema({
     default: new Date()
   },
   writer: {
-    type: Number,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true
   },
   status: {
@@ -34,7 +35,7 @@ postModel.statics.createPost = async function (post, user) {
   const newPost = new this({
     title,
     content,
-    writer: user.id
+    writer: user._id
   })
 
   const savedPost = await newPost.save()
@@ -43,7 +44,7 @@ postModel.statics.createPost = async function (post, user) {
 
 postModel.method('checkPrivilege', function (user) {
   return checkAdmin(user) ||
-    this.writer === user.id
+    this.writer === user._id
 })
 
 postModel.statics.deletePost = async function (postId, user) {
@@ -51,7 +52,7 @@ postModel.statics.deletePost = async function (postId, user) {
   if (!post) throw new CreateError(404)
   if (!post.checkPrivilege(user)) throw new CreateError(403)
 
-  if (post.writer === user.id) {
+  if (post.writer === user._id) {
     post.status = 'deleted'
   } else {
     post.status = 'hided'

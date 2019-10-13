@@ -8,6 +8,7 @@ const jwtSecret = process.env.JWT_SECRET
 export const generateAccessToken = identity => {
   try {
     const accessToken = jwt.sign({
+      _id: identity._id,
       id: identity.id,
       username: identity.username,
       name: identity.name,
@@ -22,7 +23,9 @@ export const generateAccessToken = identity => {
 export const generateRefreshToken = identity => {
   try {
     const refreshToken = jwt.sign({
-      username: identity.username
+      _id: identity._id,
+      username: identity.username,
+      refresh: true
     }, jwtSecret, { expiresIn: '1m' })
     return refreshToken
   } catch (error) {

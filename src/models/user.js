@@ -59,7 +59,8 @@ userModel.statics.createUser = async function (identity) {
     gender: identity.gender
   })
 
-  await newUser.save()
+  const savedUser = await newUser.save()
+  return savedUser
 }
 
 export default mongoose.model('User', userModel)
