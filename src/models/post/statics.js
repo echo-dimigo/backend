@@ -20,9 +20,9 @@ async function deletePost (postId, user) {
   if (!post.checkPrivilege(user)) throw new EchoError(403)
 
   if (post.writer === user._id) {
-    post.status = 'deleted'
+    post.status = 'D'
   } else {
-    post.status = 'hided'
+    post.status = 'H'
   }
 
   await post.save()

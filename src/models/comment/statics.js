@@ -22,9 +22,9 @@ async function deleteComment (commentId, user) {
   if (!comment.checkPrivilege(user)) throw new EchoError(403)
 
   if (comment.writer.equals(user._id)) {
-    comment.status = 'deleted'
+    comment.status = 'D'
   } else {
-    comment.status = 'hided'
+    comment.status = 'H'
   }
 
   await comment.save()
@@ -35,7 +35,7 @@ async function editComment (commentId, newComment, user) {
   if (!origComment) throw new EchoError(404, 'Comment Not Found')
   if (!origComment.checkPrivilege(user)) throw new EchoError(403)
 
-  origComment.status = 'edited'
+  origComment.status = 'E'
   origComment.content = newComment.content
 
   const savedComment = await origComment.save()
