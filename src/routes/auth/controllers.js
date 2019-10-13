@@ -3,10 +3,11 @@ import { UserModel } from '@/models'
 import { getUserIdentity } from '@/resources/dimiapi'
 import asyncWrapper from '@/resources/async-wrapper'
 import { generateAccessToken, generateRefreshToken } from '@/resources/token'
-import { EchoError } from '@/resources/error'
+import { EchoError, ValidationError } from '@/resources/error'
 
 async function Join (req, res, next) {
-  if (!validationResult(req).isEmpty()) throw validationResult(req)
+  if (!validationResult(req).isEmpty())
+    throw new ValidationError(validationResult(req))
 
   let identity
   try {
@@ -23,7 +24,8 @@ async function Join (req, res, next) {
 }
 
 async function Login (req, res, next) {
-  if (!validationResult(req).isEmpty()) throw validationResult(req)
+  if (!validationResult(req).isEmpty())
+    throw new ValidationError(validationResult(req))
 
   let identity
   try {
@@ -47,7 +49,6 @@ async function Login (req, res, next) {
 }
 
 async function Refresh (req, res, next) {
-  if (!validationResult(req).isEmpty()) throw validationResult(req)
   throw new EchoError(423)
 }
 
