@@ -11,4 +11,9 @@ router.post('/:tagId', [
     mongoose.Types.ObjectId.isValid(value))
 ], needAuthorization, controllers.CreateSubscription)
 
+router.delete('/:subscriptionId', [
+  check('subscriptionId').custom(value =>
+    mongoose.Types.ObjectId.isValid(value))
+], needAuthorization, controllers.CancelSubscription)
+
 export default router

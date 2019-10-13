@@ -14,6 +14,17 @@ async function CreateSubscription (req, res, next) {
   })
 }
 
+async function CancelSubscription (req, res, next) {
+  if (!validationResult(req).isEmpty()) {
+    throw new ValidationError(validationResult(req))
+  }
+  await SubscriptionModel.cancelSubscription(
+    req.params.subscriptionId, req.user
+  )
+  res.status(204).end()
+}
+
 export default {
-  CreateSubscription: asyncWrapper(CreateSubscription)
+  CreateSubscription: asyncWrapper(CreateSubscription),
+  CancelSubscription: asyncWrapper(CancelSubscription)
 }

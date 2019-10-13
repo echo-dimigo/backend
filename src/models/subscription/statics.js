@@ -21,7 +21,16 @@ async function createSubscription (tagId, user) {
   return savedSubscription
 }
 
+async function cancelSubscription (subscriptionId, user) {
+  const subscription = await SubscriptionModel.findById(subscriptionId)
+  if (!subscription) throw new EchoError(403)
+  if (!subscription.checkPrivilege(user)) throw new EchoError(403)
+
+  await subscription.remove()
+}
+
 export default {
   getSubscriptionsByUser,
-  createSubscription
+  createSubscription,
+  cancelSubscription
 }
