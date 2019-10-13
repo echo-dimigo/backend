@@ -6,7 +6,7 @@ import { generateAccessToken, generateRefreshToken } from '@/resources/token'
 import CreateError from 'http-errors'
 
 async function Join (req, res, next) {
-  if (!validationResult(req).isEmpty()) throw new CreateError(400)
+  if (!validationResult(req).isEmpty()) throw validationResult(req)
 
   let identity
   try {
@@ -23,7 +23,7 @@ async function Join (req, res, next) {
 }
 
 async function Login (req, res, next) {
-  if (!validationResult(req).isEmpty()) throw new CreateError(400)
+  if (!validationResult(req).isEmpty()) throw validationResult(req)
 
   let identity
   try {
@@ -47,7 +47,7 @@ async function Login (req, res, next) {
 }
 
 async function Refresh (req, res, next) {
-  if (!validationResult(req).isEmpty()) throw CreateError(400)
+  if (!validationResult(req).isEmpty()) throw validationResult(req)
   throw new CreateError(423)
 }
 

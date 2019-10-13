@@ -43,11 +43,15 @@ app.use('/comment', routes.Comment)
 app.use('/tag', routes.Tag)
 
 app.use((error, req, res, next) => {
-  const message = error.message
-  const code = getCodeFromMessage(message)
+  if (error.formatter) {
+    res.status(400).json(error.errors)
+  } else {
+    const message = error.message
+    const code = getCodeFromMessage(message)
 
-  res.status(code || 500)
-    .json({ message })
+    res.status(code || 500)
+      .json({ message })
+  }
 })
 
 export default app

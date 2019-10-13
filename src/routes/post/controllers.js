@@ -4,7 +4,7 @@ import asyncWrapper from '@/resources/async-wrapper'
 import CreateError from 'http-errors'
 
 async function CreatePost (req, res, next) {
-  if (!validationResult(req).isEmpty()) throw new CreateError(400)
+  if (!validationResult(req).isEmpty()) throw validationResult(req)
   const post = await PostModel.createPost(req.body, req.user)
 
   res.json({
