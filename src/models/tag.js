@@ -33,11 +33,10 @@ tagModel.statics.findByName = async function (name) {
   return tag
 }
 
-tagModel.statics.checkPrivilege = async function (tagId, user) {
-  const tag = await this.findById(tagId)
-  if (tag.owner === user._id) return true
-  else return checkAdmin(user)
-}
+tagModel.method('checkPrivilege', function (user) {
+  return checkAdmin(user) ||
+    this.owner.equals(user._id)
+})
 
 tagModel.statics.getAllTags = async function (user) {
   const allTags = this.find({})
