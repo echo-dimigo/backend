@@ -14,7 +14,8 @@ router.post('/', [
     mongoose.Types.ObjectId.isValid(value))
 ], needAuthorization, controllers.CreateComment)
 
-router.delete('/:commentId', (req, res, next) => {})
+router.delete('/:commentId',
+  needAuthorization, controllers.DeleteComment)
 
 router.put('/:commentId', (req, res, next) => {})
 

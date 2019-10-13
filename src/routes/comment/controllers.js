@@ -1,7 +1,6 @@
 import { CommentModel } from '@/models'
 import { validationResult } from 'express-validator'
 import asyncWrapper from '@/resources/async-wrapper'
-import CreateError from 'http-errors'
 
 async function CreateComment (req, res, next) {
   if (!validationResult(req).isEmpty()) throw validationResult(req)
@@ -12,6 +11,12 @@ async function CreateComment (req, res, next) {
   })
 }
 
+async function DeleteComment (req, res, next) {
+  await CommentModel.deleteComment(req.params.commentId, req.user)
+  res.status(204).end()
+}
+
 export default {
-  CreateComment: asyncWrapper(CreateComment)
+  CreateComment: asyncWrapper(CreateComment),
+  DeleteComment: asyncWrapper(DeleteComment)
 }
