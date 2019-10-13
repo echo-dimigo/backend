@@ -1,10 +1,12 @@
 import { CommentModel } from '@/models'
 import { validationResult } from 'express-validator'
+import { ValidationError } from '@/resources/error'
 import asyncWrapper from '@/resources/async-wrapper'
 
 async function CreateComment (req, res, next) {
-  if (!validationResult(req).isEmpty())
+  if (!validationResult(req).isEmpty()) {
     throw new ValidationError(validationResult(req))
+  }
 
   const comment = await CommentModel.createComment(req.body, req.user)
   res.json({
@@ -18,8 +20,7 @@ async function DeleteComment (req, res, next) {
 }
 
 async function EditComment (req, res, next) {
-  if (!validationResult(req).isEmpty())
-    throw new ValidationError(validationResult(req))
+  if (!validationResult(req).isEmpty()) { throw new ValidationError(validationResult(req)) }
 
   const editedComment =
     await CommentModel.editComment(req.params.commentId, req.body, req.user)

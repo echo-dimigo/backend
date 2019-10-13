@@ -6,8 +6,9 @@ import { generateAccessToken, generateRefreshToken } from '@/resources/token'
 import { EchoError, ValidationError } from '@/resources/error'
 
 async function Join (req, res, next) {
-  if (!validationResult(req).isEmpty())
+  if (!validationResult(req).isEmpty()) {
     throw new ValidationError(validationResult(req))
+  }
 
   let identity
   try {
@@ -24,8 +25,9 @@ async function Join (req, res, next) {
 }
 
 async function Login (req, res, next) {
-  if (!validationResult(req).isEmpty())
+  if (!validationResult(req).isEmpty()) {
     throw new ValidationError(validationResult(req))
+  }
 
   let identity
   try {
