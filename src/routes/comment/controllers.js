@@ -21,7 +21,6 @@ async function DeleteComment (req, res, next) {
 
 async function EditComment (req, res, next) {
   if (!validationResult(req).isEmpty()) { throw new ValidationError(validationResult(req)) }
-
   const editedComment =
     await CommentModel.editComment(req.params.commentId, req.body, req.user)
   res.json({
