@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 import { PostModel } from '@/models'
-import CreateError from 'http-errors'
+import { EchoError } from '@/resources/error'
 import checkAdmin from '@/resources/checkAdmin'
 
 const commentModel = new Schema({
@@ -32,7 +32,7 @@ const commentModel = new Schema({
 
 commentModel.statics.createComment = async function (comment, user) {
   const post = await PostModel.findById(comment.target)
-  if (!post) throw new CreateError(404)
+  if (!post) throw new EchoError(404, 'Post Not Found')
 
   const { content, target } = comment
   const newComment = new this({
@@ -52,8 +52,8 @@ commentModel.method('checkPrivilege', function (user) {
 
 commentModel.statics.deleteComment = async function (commentId, user) {
   const comment = await this.findById(commentId)
-  if (!comment) throw new CreateError(404)
-  if (!comment.checkPrivilege(user)) throw new CreateError(403)
+  if (!comment) throw new EchoError(404, 'Comment Not Found')
+  if (!comment.checkPrivilege(user)) throw new EchoError(403)
 
   if (comment.writer === user._id) {
     comment.status = 'deleted'
@@ -66,8 +66,8 @@ commentModel.statics.deleteComment = async function (commentId, user) {
 
 commentModel.statics.editComment = async function (commentId, newComment, user) {
   const origComment = await this.findById(commentId)
-  if (!origComment) throw new CreateError(404)
-  if (!origComment.checkPrivilege(user)) throw new CreateError(403)
+  if (!origComment) throw new EchoError(404, 'Comment Not Found')
+  if (!origComment.checkPrivilege(user)) throw new EchoError(403)
 
   origComment.status = 'edited'
   origComment.content = newComment.content

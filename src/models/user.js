@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
-import CreateError from 'http-errors'
+import { EchoError } from '@/resources/error'
 
 const userModel = new Schema({
   id: { // in dimiapi
@@ -44,9 +44,7 @@ userModel.statics.findByIdx = async function (id) {
 }
 
 userModel.statics.createUser = async function (identity) {
-  if (await this.findByIdx(identity.id)) {
-    throw new CreateError(409)
-  }
+  if (await this.findByIdx(identity.id)) throw new EchoError(409)
 
   const newUser = new this({
     id: identity.id,

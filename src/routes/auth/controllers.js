@@ -3,17 +3,19 @@ import { UserModel } from '@/models'
 import { getUserIdentity } from '@/resources/dimiapi'
 import asyncWrapper from '@/resources/async-wrapper'
 import { generateAccessToken, generateRefreshToken } from '@/resources/token'
-import CreateError from 'http-errors'
+import { EchoError, ValidationError } from '@/resources/error'
 
 async function Join (req, res, next) {
-  if (!validationResult(req).isEmpty()) throw validationResult(req)
+  if (!validationResult(req).isEmpty()) {
+    throw new ValidationError(validationResult(req))
+  }
 
   let identity
   try {
     const { username, password } = req.body
     identity = await getUserIdentity(username, password)
   } catch (error) {
-    throw new CreateError(401)
+    throw new EchoError(401, 'Unauthorized From DIMIAPI')
   }
 
   const savedIdentity = await UserModel.createUser(identity)
@@ -23,7 +25,9 @@ async function Join (req, res, next) {
 }
 
 async function Login (req, res, next) {
-  if (!validationResult(req).isEmpty()) throw validationResult(req)
+  if (!validationResult(req).isEmpty()) {
+    throw new ValidationError(validationResult(req))
+  }
 
   let identity
   try {
@@ -32,9 +36,9 @@ async function Login (req, res, next) {
     identity = await getUserIdentity(username, password)
     identity = await UserModel.findByIdx(identity.id)
 
-    if (!identity) throw new CreateError(401)
+    if (!identity) throw new EchoError(401)
   } catch (error) {
-    throw new CreateError(401)
+    throw new EchoError(401)
   }
 
   const accessToken = generateAccessToken(identity)
@@ -47,8 +51,7 @@ async function Login (req, res, next) {
 }
 
 async function Refresh (req, res, next) {
-  if (!validationResult(req).isEmpty()) throw validationResult(req)
-  throw new CreateError(423)
+  throw new EchoError(423)
 }
 
 export default {

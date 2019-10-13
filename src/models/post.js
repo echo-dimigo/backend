@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
-import CreateError from 'http-errors'
+import { EchoError } from '@/resources/error'
 import checkAdmin from '@/resources/checkAdmin'
 
 const postModel = new Schema({
@@ -49,8 +49,8 @@ postModel.method('checkPrivilege', function (user) {
 
 postModel.statics.deletePost = async function (postId, user) {
   const post = await this.findById(postId)
-  if (!post) throw new CreateError(404)
-  if (!post.checkPrivilege(user)) throw new CreateError(403)
+  if (!post) throw new EchoError(404, 'Post Not Found')
+  if (!post.checkPrivilege(user)) throw new EchoError(403)
 
   if (post.writer === user._id) {
     post.status = 'deleted'
