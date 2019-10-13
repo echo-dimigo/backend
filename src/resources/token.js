@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import CreateError from 'http-errors'
+import { EchoError } from '@/resources/error'
 import dotenv from 'dotenv'
 
 dotenv.config('.env')
@@ -16,7 +16,7 @@ export const generateAccessToken = identity => {
     }, jwtSecret, { expiresIn: '1w' })
     return accessToken
   } catch (error) {
-    throw new CreateError(500)
+    throw new EchoError(500)
   }
 }
 
@@ -29,15 +29,17 @@ export const generateRefreshToken = identity => {
     }, jwtSecret, { expiresIn: '1m' })
     return refreshToken
   } catch (error) {
-    throw new CreateError(500)
+    throw new EchoError(500)
   }
 }
 
 export const verifyToken = token => {
+  if (!token) throw new EchoError(401, 'Missing Authorization Header')
+
   try {
     jwt.verify(token, jwtSecret)
   } catch (error) {
-    throw new CreateError(401)
+    throw new EchoError(401)
   }
 }
 
@@ -46,6 +48,6 @@ export const decodeToken = token => {
     const decoded = jwt.decode(token)
     return decoded
   } catch (error) {
-    throw new CreateError(401)
+    throw new EchoError(401)
   }
 }
