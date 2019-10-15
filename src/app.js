@@ -40,6 +40,7 @@ app.use('/auth', routes.Auth)
 app.use('/post', routes.Post)
 app.use('/comment', routes.Comment)
 app.use('/tag', routes.Tag)
+app.use('/subscription', routes.Subscription)
 
 app.use((error, req, res, next) => {
   if (error.name === 'ValidationError') {
