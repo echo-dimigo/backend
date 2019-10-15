@@ -2,7 +2,7 @@ import { validationResult } from 'express-validator'
 import { UserModel } from '@/models'
 import { getUserIdentity } from '@/resources/dimiapi'
 import asyncWrapper from '@/resources/async-wrapper'
-import { generateAccessToken, generateRefreshToken } from '@/resources/token'
+import { generateAccessToken, generateRefreshToken, isRefreshToken } from '@/resources/token'
 import { EchoError, ValidationError } from '@/resources/error'
 
 async function Join (req, res, next) {
@@ -51,7 +51,16 @@ async function Login (req, res, next) {
 }
 
 async function Refresh (req, res, next) {
-  throw new EchoError(423)
+  if (!isRefreshToken(req.token)) throw new EchoError(401, 'Refresh Token Required')
+  const identity = await UserModel.findById(req.user._id)
+
+  const accessToken = generateAccessToken(identity)
+  const refreshToken = generateRefreshToken(identity)
+
+  res.json({
+    accessToken,
+    refreshToken
+  })
 }
 
 export default {
