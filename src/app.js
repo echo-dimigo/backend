@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
+import bearerToken from 'express-bearer-token'
 import { attachUserInfo } from '@/resources/middlewares'
 
 import routes from '@/routes'
@@ -33,6 +34,13 @@ mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
+
+app.use(bearerToken({
+  bodyKey: 'Authorization',
+  queryKey: 'Authorization',
+  headerKey: 'Bearer',
+  reqKey: 'token'
+}))
 
 app.use(attachUserInfo)
 
