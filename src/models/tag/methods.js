@@ -6,7 +6,7 @@ function checkPrivilege (user) {
 }
 
 function checkSubPermission (user) { // 구독 가능 여부
-  return checkAdmin(user) ||
+  return this.checkPrivilege(user) ||
     this.joinOption === 'O'
 }
 
