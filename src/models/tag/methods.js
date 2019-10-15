@@ -12,7 +12,7 @@ function checkSubPermission (user) { // 구독 가능 여부
 }
 
 async function deleteSubscriptions () {
-  const deletedTags = await SubscriptionModel.remove({ tag: this._id })
+  const deletedTags = await SubscriptionModel.deleteMany({ tag: this._id })
   return deletedTags
 }
 
