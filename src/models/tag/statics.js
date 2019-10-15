@@ -9,7 +9,7 @@ async function findByName (name) {
 
 async function deleteTag (tagId, user) {
   const tag = await TagModel.findById(tagId)
-  if (!tag) throw new EchoError(404, 'Post Not Found')
+  if (!tag) throw new EchoError(404, 'Tag Not Found')
   if (!tag.checkPrivilege(user)) throw new EchoError(403)
 
   await tag.remove()
