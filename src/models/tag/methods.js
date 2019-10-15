@@ -1,4 +1,5 @@
 import checkAdmin from '@/resources/checkAdmin'
+import { SubscriptionModel } from '@/models'
 
 function checkPrivilege (user) {
   return checkAdmin(user) ||
@@ -10,7 +11,13 @@ function checkSubPermission (user) { // 구독 가능 여부
     this.joinOption === 'O'
 }
 
+async function deleteSubscriptions () {
+  const deletedTags = await SubscriptionModel.remove({ tag: this._id })
+  return deletedTags
+}
+
 export default {
   checkPrivilege,
-  checkSubPermission
+  checkSubPermission,
+  deleteSubscriptions
 }
