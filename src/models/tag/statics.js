@@ -1,4 +1,4 @@
-import { TagModel } from '@/models'
+import { TagModel, SubscriptionModel } from '@/models'
 import { EchoError } from '@/resources/error'
 import checkAdmin from '@/resources/checkAdmin'
 
@@ -13,6 +13,7 @@ async function deleteTag (tagId, user) {
   if (!tag.checkPrivilege(user)) throw new EchoError(403)
 
   await tag.remove()
+  await tag.deleteSubscriptions()
 }
 
 async function getAllTags (user) {
