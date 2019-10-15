@@ -51,3 +51,12 @@ export const decodeToken = token => {
     throw new EchoError(401)
   }
 }
+
+export const isRefreshToken = token => {
+  try {
+    const { refresh } = jwt.decode(token)
+    return refresh | false
+  } catch (error) {
+    throw new EchoError(401)
+  }
+}
