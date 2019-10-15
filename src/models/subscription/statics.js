@@ -31,7 +31,7 @@ async function getSubscription (tagId, user) {
 
 async function createSubscription (tagId, user) {
   const tag = await TagModel.findById(tagId)
-  if (!tag) throw new EchoError(403)
+  if (!tag) throw new EchoError(404)
   if (!tag.checkSubPermission(user)) throw new EchoError(403)
 
   if (await SubscriptionModel.isUserSubscribed(tagId, user)) {
