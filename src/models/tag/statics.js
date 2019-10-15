@@ -1,4 +1,4 @@
-import { TagModel, SubscriptionModel } from '@/models'
+import { TagModel } from '@/models'
 import { EchoError } from '@/resources/error'
 import checkAdmin from '@/resources/checkAdmin'
 
