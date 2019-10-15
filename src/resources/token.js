@@ -34,7 +34,7 @@ export const generateRefreshToken = identity => {
 }
 
 export const verifyToken = token => {
-  if (!token) throw new EchoError(401, 'Missing Authorization Header')
+  if (!token) throw new EchoError(401, 'Authorization Header Error')
 
   try {
     jwt.verify(token, jwtSecret)
