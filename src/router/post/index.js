@@ -1,7 +1,10 @@
 import { Router } from 'express'
 import { check } from 'express-validator'
-import { needAuthorization } from '@/resources/middlewares'
 import controllers from './controllers'
+import {
+  needAuthorization,
+  checkValidation
+} from '@/resources/middlewares'
 
 const router = Router()
 
@@ -12,10 +15,9 @@ router.get('/start/:startPage/end/:endPage', (req, res, next) => {})
 router.post('/', [
   check('title').isString().not().isEmpty(),
   check('content').isString().not().isEmpty()
-], needAuthorization, controllers.CreatePost)
+], checkValidation, needAuthorization, controllers.CreatePost)
 
-router.delete('/:postId', needAuthorization,
-  controllers.DeletePost)
+router.delete('/:postId', needAuthorization, controllers.DeletePost)
 
 router.put('/:postId', (req, res, next) => {})
 
