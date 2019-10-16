@@ -23,18 +23,22 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "express-swagger-generator": "^1.1.15",
-    "nodemon": "^1.19.1",
-    "standard": "^13.0.2"
+    "nodemon": "^1.19.4",
+    "standard": "^14.3.1"
   },
   "dependencies": {
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "dotenv": "^8.0.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-bearer-token": "^2.4.0",
     "express-validator": "^6.1.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.6.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/echo-dimigo/echo-back.git"
   }
 }
