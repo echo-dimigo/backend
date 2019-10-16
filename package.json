@@ -24,7 +24,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "express-swagger-generator": "^1.1.15",
     "nodemon": "^1.19.1",
-    "standard": "^13.0.2"
+    "standard": "^14.3.1"
   },
   "dependencies": {
     "axios": "^0.19.0",
