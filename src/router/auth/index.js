@@ -9,8 +9,6 @@ const router = Router()
  * 디미고 계정 정보를 받아 에코를 가입합니다.
  * @route POST /auth/join
  * @group Auth - 인증 관련 메소드
- * @param {string} username.query.required - 사용자 이름
- * @param {string} password.query.required - 사용자 비밀번호
  * @returns {object} 200 - 사용자 정보
  * @returns {Error}  401 - 일치하는 계정이 디미고 API에 존재하지 않습니다.
  */
@@ -23,10 +21,9 @@ router.post('/join', [
  * 디미고 계정 정보를 받아 에코에서의 토큰을 발행합니다.
  * @route POST /auth/login
  * @group Auth - 인증 관련 메소드
- * @param {string} username.query.required - 사용자 이름
- * @param {string} password.query.required - 사용자 비밀번호
  * @returns {object} 200 - Access 토큰과 Refresh 토큰을 반환합니다.
  * @returns {Error}  401 - 일치하는 에코 계정 정보가 존재하지 않습니다.
+ * @returns {Error}  409 - 이미 가입된 계정입니다.
  */
 router.post('/login', [
   check('username').isString().not().isEmpty(),
