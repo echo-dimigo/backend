@@ -39,7 +39,6 @@ router.post('/login', [
  * @group Auth - 인증 관련 메소드
  * @returns {object} 200 - Access 토큰과 Refresh 토큰을 반환합니다.
  * @returns {Error}  401 - 토큰이 Refresh 용이 아니거나 인증에 실패했습니다.
- * @security JWT - Refresh 토큰이 Bearer로 Authorization 헤더에 존재해야 합니다.
  */
 router.post('/refresh', controllers.Refresh)
 
