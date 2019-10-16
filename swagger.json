@@ -19,5 +19,5 @@
       }
     }
   },
-  "files": ["./routes/*/index.js"]
+  "files": ["./router/*/index.js"]
 }
