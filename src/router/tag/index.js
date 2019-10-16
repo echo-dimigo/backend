@@ -30,7 +30,7 @@ router.post('/', [
 
 /**
  * 태그를 삭제합니다.
- * @route POST /tag
+ * @route DELETE /tag
  * @group Tag - 태그 관련 메소드
  * @returns {object} 204 - 태그를 정상적으로 삭제했습니다.
  * @returns {Error} 403 - 권한이 없습니다.
