@@ -9,7 +9,7 @@
     "produces": [
       "application/json"
     ],
-    "schemes": ["http"],
+    "schemes": ["http", "https"],
     "securityDefinitions": {
       "JWT": {
         "type": "apiKey",
