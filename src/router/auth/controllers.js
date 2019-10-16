@@ -1,15 +1,10 @@
-import { validationResult } from 'express-validator'
 import { UserModel } from '@/models'
 import { getUserIdentity } from '@/resources/dimiapi'
 import asyncWrapper from '@/resources/async-wrapper'
 import { generateAccessToken, generateRefreshToken, isRefreshToken } from '@/resources/token'
-import { EchoError, ValidationError } from '@/resources/error'
+import { EchoError } from '@/resources/error'
 
 async function Join (req, res, next) {
-  if (!validationResult(req).isEmpty()) {
-    throw new ValidationError(validationResult(req))
-  }
-
   let identity
   try {
     const { username, password } = req.body
@@ -25,10 +20,6 @@ async function Join (req, res, next) {
 }
 
 async function Login (req, res, next) {
-  if (!validationResult(req).isEmpty()) {
-    throw new ValidationError(validationResult(req))
-  }
-
   let identity
   try {
     const { username, password } = req.body

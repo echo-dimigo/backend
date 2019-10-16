@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { check } from 'express-validator'
+import { checkValidation } from '@/resources/middlewares'
 import controllers from './controllers'
 
 const router = Router()
@@ -7,12 +8,12 @@ const router = Router()
 router.post('/join', [
   check('username').isString().not().isEmpty(),
   check('password').isString().not().isEmpty()
-], controllers.Join)
+], checkValidation, controllers.Join)
 
 router.post('/login', [
   check('username').isString().not().isEmpty(),
   check('password').isString().not().isEmpty()
-], controllers.Login)
+], checkValidation, controllers.Login)
 
 router.post('/refresh', controllers.Refresh)
 
