@@ -7,7 +7,7 @@ import mongoose from 'mongoose'
 import bearerToken from 'express-bearer-token'
 import { attachUserInfo } from '@/resources/middlewares'
 
-import routes from '@/routes'
+import router from '@/router'
 
 import swaggerGen from 'express-swagger-generator'
 import swaggerOpt from '../swagger.json'
@@ -44,11 +44,7 @@ app.use(bearerToken({
 
 app.use(attachUserInfo)
 
-app.use('/auth', routes.Auth)
-app.use('/post', routes.Post)
-app.use('/comment', routes.Comment)
-app.use('/tag', routes.Tag)
-app.use('/subscription', routes.Subscription)
+app.use('/', router)
 
 app.use((error, req, res, next) => {
   if (error.name === 'ValidationError') {
