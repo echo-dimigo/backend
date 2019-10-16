@@ -14,8 +14,7 @@ router.post('/', [
   check('content').isString().not().isEmpty()
 ], needAuthorization, controllers.CreatePost)
 
-router.delete('/:postId', needAuthorization,
-  controllers.DeletePost)
+router.delete('/:postId', needAuthorization, controllers.DeletePost)
 
 router.put('/:postId', (req, res, next) => {})
 
