@@ -19,7 +19,7 @@ router.post('/', [
 
 router.delete('/:postId', needAuthorization, controllers.DeletePost)
 
-router.put('/:postId', (req, res, next) => {})
+router.put('/:postId', needAuthorization, controllers.EditPost)
 
 router.get('/:postId/comments', (req, res, next) => {})
 

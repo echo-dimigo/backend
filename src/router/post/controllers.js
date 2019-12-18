@@ -13,7 +13,16 @@ async function DeletePost (req, res, next) {
   res.status(204).end()
 }
 
+async function EditPost (req, res, next) {
+  const editedPost = await PostModel.editPost(req.params.postId, req.body, req.user)
+
+  res.json({
+    post: editedPost
+  })
+}
+
 export default {
   CreatePost: asyncWrapper(CreatePost),
-  DeletePost: asyncWrapper(DeletePost)
+  DeletePost: asyncWrapper(DeletePost),
+  EditPost: asyncWrapper(EditPost)
 }

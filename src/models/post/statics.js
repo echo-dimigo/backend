@@ -28,7 +28,27 @@ async function deletePost (postId, user) {
   await post.save()
 }
 
+async function editPost (postId, newPost, user) {
+  const post = await PostModel.findById(postId)
+
+  if (!post) throw new EchoError(404, 'Post Not Found')
+  if (!post.checkPrivilege(user)) throw new EchoError(403)
+
+  post.stauts = 'E'
+
+  const properties = ['title', 'content']
+  properties.forEach(prop => {
+    if ({}.hasOwnProperty.call(newPost, prop)) {
+      post[prop] = newPost[prop]
+    }
+  })
+
+  await post.save()
+  return post
+}
+
 export default {
   createPost,
-  deletePost
+  deletePost,
+  editPost
 }
