@@ -24,7 +24,7 @@ const postModel = new Schema({
   },
   status: {
     type: String,
-    enum: ['N', 'D', 'H', 'E'], // Normal, Deleted(자신이 삭제), Hided(관리자가 숨김), E(수정됨)
+    enum: ['N', 'D', 'H', 'E'], // Normal, Deleted(자신이 삭제), Hided(관리자가 숨김), Edited(수정됨)
     default: 'N'
   }
 })
