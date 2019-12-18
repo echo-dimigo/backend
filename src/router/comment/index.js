@@ -9,7 +9,9 @@ import {
 
 const router = Router()
 
-router.get('/:userId', (req, res, next) => {})
+router.get('/writer/:userId', [
+  check('userId').custom(isObjectId)
+], checkValidation, needAuthorization, controllers.GetCommentsByUser)
 
 router.post('/', [
   check('content').isString().not().isEmpty(),

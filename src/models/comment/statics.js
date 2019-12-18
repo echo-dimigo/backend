@@ -42,8 +42,16 @@ async function editComment (commentId, newComment, user) {
   return savedComment
 }
 
+async function getCommentsByUser (user) {
+  const comments = await CommentModel.find({ writer: user._id })
+  if (!comments) throw new EchoError(404, 'Comment Not Found')
+
+  return comments
+}
+
 export default {
   createComment,
   deleteComment,
-  editComment
+  editComment,
+  getCommentsByUser
 }

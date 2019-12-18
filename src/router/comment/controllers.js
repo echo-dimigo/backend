@@ -21,8 +21,16 @@ async function EditComment (req, res, next) {
   })
 }
 
+async function GetCommentsByUser (req, res, next) {
+  const comments = await CommentModel.getCommentsByUser(req.user)
+  res.json({
+    comments
+  })
+}
+
 export default {
   CreateComment: asyncWrapper(CreateComment),
   DeleteComment: asyncWrapper(DeleteComment),
-  EditComment: asyncWrapper(EditComment)
+  EditComment: asyncWrapper(EditComment),
+  GetCommentsByUser: asyncWrapper(GetCommentsByUser)
 }
