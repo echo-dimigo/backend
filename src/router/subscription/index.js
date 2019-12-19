@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { check } from 'express-validator'
 import controllers from './controllers'
-import isObjectId from '@/resources/isObjectId'
+import { isObjectId } from '@/resources/validators'
 import {
   needAuthorization,
   checkValidation
