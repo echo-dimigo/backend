@@ -1,4 +1,5 @@
 import { EventModel } from '@/models'
+import { EchoError } from '@/resources/error'
 
 async function createEvent (event, user) {
   const { name, description, startTime, endTime } = event
