@@ -5,8 +5,11 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 
+import helmet from 'helmet'
+
 import bearerToken from 'express-bearer-token'
 import { attachUserInfo } from '@/resources/middlewares'
+
 import swaggerGen from 'express-swagger-generator'
 import swaggerOpt from '../swagger.json'
 
@@ -20,6 +23,8 @@ mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
+
+app.use(helmet())
 
 app.use(cors())
 app.use(bodyParser.urlencoded({
