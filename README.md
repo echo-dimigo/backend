@@ -30,16 +30,13 @@ npm start
 
 * Github: [@uhmtoto](https://github.com/uhmtoto)
 
-## 🤝 Contributing
+## Environment Setting
 
-Contributions, issues and feature requests are welcome!
-
-Feel free to check [issues page](https://github.com/echo-dimigo/echo-back/issues).
-
-## Show your support
-
-Give a ⭐️ if this project helped you!
-
-
-***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
+```
+SERVER_PORT=
+DIMIAPI_URL=
+DIMIAPI_ID=
+DIMIAPI_PW=
+JWT_SECRET=
+MONGODB_URI=
+```
