@@ -20,9 +20,13 @@ router.delete('/:eventId', [
   check('eventId').custom(isObjectId)
 ], checkValidation, needAuthorization, controllers.DeleteEvent)
 
-router.put('/:eventId', needAuthorization, (req, res, next) => {})
+router.put('/:eventId', [
+  check('eventId').custom(isObjectId)
+], checkValidation, needAuthorization, controllers.EditEvent)
 
-router.get('/:eventId', needAuthorization, (req, res, next) => {})
+router.get('/:eventId', needAuthorization, [
+  check('eventId').custom(isObjectId)
+], checkValidation, needAuthorization, controllers.EditEvent)
 
 router.post('/:eventId/attend', needAuthorization, (req, res, next) => {})
 

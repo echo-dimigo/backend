@@ -24,7 +24,26 @@ async function deleteEvent (eventId, user) {
   await event.remove()
 }
 
+async function editEvent (eventId, newEvent, user) {
+  const event = await EventModel.findById(eventId)
+  if (!event) throw new EchoError(404, 'Event Not Found')
+  if (!event.checkPrivilege(user)) throw new EchoError(403)
+
+  const properties = [
+    'name', 'description', 'startTime', 'endTime', 'writer'
+  ]
+  properties.forEach(prop => {
+    if ({}.hasOwnProperty.call(newEvent, prop)) {
+      event[prop] = newEvent[prop]
+    }
+  })
+
+  await event.save()
+  return event
+}
+
 export default {
   createEvent,
-  deleteEvent
+  deleteEvent,
+  editEvent
 }
